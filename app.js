@@ -14,4 +14,6 @@ app.use((req, res, next) => {
     res.status(404).json('Not Found!');
 });
 
+require('./error-handling')(app);
+
 module.exports = app;
