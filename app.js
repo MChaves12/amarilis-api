@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 //DataBase
-
+require('./db');
 
 //Configs
 
