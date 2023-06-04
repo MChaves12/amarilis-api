@@ -9,11 +9,13 @@ require('./db');
 require('./configs')(app);
 
 //Routes
+app.use('/products', require('./routes/product.routes'));
 app.use('/auth', require('./routes/auth.routes'));
 
 //Erros
 app.use((req, res, next) => {
     res.status(404).json('Not Found!');
+
 });
 
 require('./error-handling')(app);
