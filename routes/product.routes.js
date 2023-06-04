@@ -29,4 +29,17 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+//cRud -> Read
+router.get('/', async (req, res, next) => {
+  const { page, limit } = req.query;
+  try {
+    const productsFromDB = await Product.find().limit(limit).skip(limit * (page - 1));
+    res.status(200).json(productsFromDB);
+  } catch (error) {
+    next(error);
+  }
+})
+
+
+
 module.exports = router;
