@@ -9,6 +9,9 @@ require('./db');
 require('./configs')(app);
 
 //Routes
+//app.use('/products', require('./routes/product.routes'));
+const productRoutes = require('./routes/product.routes');
+app.use('/products', productRoutes);
 
 //Erros
 app.use((req, res, next) => {
