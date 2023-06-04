@@ -50,4 +50,15 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
+// crUd -> Update
+router.put('/:productId', async (req, res, next) => {
+  const { productId } = req.params;
+  try {
+    const productFromDB = await Product.findByIdAndUpdate(productId, req.body, {new: true});
+    res.status(200).json(productFromDB);
+  } catch (error) {
+    next(error);
+  }
+})
+
 module.exports = router;
