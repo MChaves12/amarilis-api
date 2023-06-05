@@ -12,6 +12,8 @@ require('./configs')(app);
 app.use('/products', require('./routes/product.routes'));
 app.use('/auth', require('./routes/auth.routes'));
 
+app.use('/user', require('./routes/user.routes'));
+
 //Erros
 app.use((req, res, next) => {
     res.status(404).json('Not Found!');
