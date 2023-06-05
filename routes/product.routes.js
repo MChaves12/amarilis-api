@@ -42,8 +42,19 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get('/:productName', async (req, res, next) => {
+  const { productName } = req.params;
+  try {
+    const findProduct = await Product.findOne({name: productName});
+    res.status(200).json(findProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:productId", async (req, res, next) => {
   const { productId } = req.params;
+  console.log(req.params)
   try {
     const productFromDB = await Product.findById(productId);
     res.status(200).json(productFromDB);
