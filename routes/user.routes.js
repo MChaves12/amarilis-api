@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const { authenticated } = require('../middlewares/jwt.middleware');
 
-const User = require('../models/user.model');
+const User = require('../models/User.model');
 
 router.get('/', async (req, res, next) => {
     try {
@@ -12,3 +12,5 @@ router.get('/', async (req, res, next) => {
         next(error);
     }
 });
+
+module.exports = router;

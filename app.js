@@ -11,7 +11,6 @@ require('./configs')(app);
 //Routes
 app.use('/products', require('./routes/product.routes'));
 app.use('/auth', require('./routes/auth.routes'));
-
 app.use('/user', require('./routes/user.routes'));
 
 //Erros
