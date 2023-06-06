@@ -34,7 +34,7 @@ router.delete('/:userId', async (req, res, next) => {
     }
 });
 
-router.post('/add-category/:categoryId', async (req, res, next) => {
+router.post('/add-category/:categoryId', authenticated, async (req, res, next) => {
     const { categoryId } = req.params;
     const userId = req.payload._id;
     try {

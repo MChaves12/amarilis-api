@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { authenticated } = require('../middlewares/jwt.middleware');
-const Product = require('../models/product.model');
+const User = require('../models/User.model');
 const Category = require('../models/Category.model');
 
 
@@ -42,6 +42,31 @@ router.put('/:categoryId', async (req, res, next) => {
     try {
         const findCategory = await Category.findByIdAndUpdate(categoryId, {name}, {new: true});
         res.status(200).json(findCategory);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.delete('/:categoryId', authenticated, async (req, res, next) => {
+    const { categoryId } = req.params;
+    const { _id } = req.payload;
+    try {
+        await Category.findByIdAndDelete(categoryId);
+        const user = await User.findById(_id);
+        user.categories.splice(categoryId);
+        user.save();
+        res.status(204).json()
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post('/add-product/:categoryName/:productId', async (req, res, next) => {
+    const { categoryName, productId } = req.params;
+    try {
+        const findCategory = await Category.findOneAndUpdate({name: categoryName}, {$push:{products: productId}}, {new:true});
+        const { name, products } = findCategory;
+        res.status(200).json({name, products});
     } catch (error) {
         next(error);
     }
