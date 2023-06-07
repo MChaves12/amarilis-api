@@ -64,6 +64,9 @@ router.delete('/:categoryId', authenticated, async (req, res, next) => {
 router.post('/add-product/:categoryName/:productId', async (req, res, next) => {
     const { categoryName, productId } = req.params;
     try {
+        if(!categoryName){
+            res.status(400).json({message: 'Category not found. Create a Category to add products'})
+        }
         const findCategory = await Category.findOneAndUpdate({name: categoryName}, {$push:{products: productId}}, {new:true});
         const { name, products } = findCategory;
         res.status(200).json({name, products});
