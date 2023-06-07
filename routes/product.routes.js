@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 // modelo
 const Product = require("../models/product.model");
+const Category = require('../models/Category.model');
 
 // middlewares
 //const { isAdmin } = require('../middlewares/role.middleware');
@@ -79,8 +80,12 @@ router.put("/:productId", async (req, res, next) => {
 // cruD -> Delete;
 router.delete("/:productId", async (req, res, next) => {
   const { productId } = req.params;
+  const { name } = req.body
   try {
     await Product.findByIdAndRemove(productId);
+    const category = await Category.findOne(name);
+    category.products.splice(productId);
+    category.save();
     res.status(204).json();
   } catch (error) {
     next(error);
