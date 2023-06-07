@@ -81,6 +81,7 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
+
 router.get('verify', authenticated, (req, res) => {
     res.json(req.payload);
 })

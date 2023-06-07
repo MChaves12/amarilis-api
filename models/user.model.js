@@ -18,6 +18,10 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  categories: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Category'
+  }
 }, { timestamps: true });
 
 module.exports = model('User', userSchema);

@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId', authenticated, async (req, res, next) => {
     const { userId } = req.params;
     const { username, email } = req.body
     try {
@@ -29,6 +29,18 @@ router.delete('/:userId', async (req, res, next) => {
     try {
        await User.findByIdAndDelete(userId);
        res.status(204).json() 
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post('/add-category/:categoryId', authenticated, async (req, res, next) => {
+    const { categoryId } = req.params;
+    const userId = req.payload._id;
+    try {
+        const findUser = await User.findByIdAndUpdate(userId, {$push: {categories: categoryId}}, {new: true});
+        const { _id, username, categories } = findUser;
+        res.status(200).json({_id, username, categories});
     } catch (error) {
         next(error);
     }
