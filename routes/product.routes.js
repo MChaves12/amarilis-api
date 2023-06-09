@@ -2,7 +2,8 @@ const router = require("express").Router();
 
 // modelo
 const Product = require("../models/product.model");
-const Category = require('../models/Category.model');
+const Category = require("../models/Category.model");
+const uploadImage = require("../configs/cloudinary.configs");
 
 // middlewares
 //const { isAdmin } = require('../middlewares/role.middleware');
@@ -43,10 +44,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get('/:productName', async (req, res, next) => {
+router.get("/:productName", async (req, res, next) => {
   const { productName } = req.params;
   try {
-    const findProduct = await Product.findOne({name: productName});
+    const findProduct = await Product.findOne({ name: productName });
     res.status(200).json(findProduct);
   } catch (error) {
     next(error);
@@ -55,7 +56,7 @@ router.get('/:productName', async (req, res, next) => {
 
 router.get("/:productId", async (req, res, next) => {
   const { productId } = req.params;
-  console.log(req.params)
+  console.log(req.params);
   try {
     const productFromDB = await Product.findById(productId);
     res.status(200).json(productFromDB);
@@ -80,7 +81,7 @@ router.put("/:productId", async (req, res, next) => {
 // cruD -> Delete;
 router.delete("/:productId", async (req, res, next) => {
   const { productId } = req.params;
-  const { name } = req.body
+  const { name } = req.body;
   try {
     await Product.findByIdAndRemove(productId);
     const category = await Category.findOne(name);
@@ -91,5 +92,19 @@ router.delete("/:productId", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post(
+  "/image",
+  authenticated,
+  uploadImage.array("image"),
+  async (req, res, next) => {
+    try {
+      const urls = req.files.map((file) => file.path);
+      res.status(201).json({ urls });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;
