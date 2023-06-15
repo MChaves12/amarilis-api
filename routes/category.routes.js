@@ -26,7 +26,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:categoryName', async (req, res, next) => {
+router.get('/name/:categoryName', async (req, res, next) => {
     const { categoryName } = req.params;
     try {
         const findCategory = await Category.findOne({name: categoryName});

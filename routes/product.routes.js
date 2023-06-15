@@ -7,6 +7,7 @@ const uploadImage = require("../configs/cloudinary.configs");
 
 // middlewares
 //const { isAdmin } = require('../middlewares/role.middleware');
+const { authenticated } = require('../middlewares/jwt.middleware');
 
 //rotas
 //rotas de autenticação - Teste funcionando
@@ -44,7 +45,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:productName", async (req, res, next) => {
+router.get("/name/:productName", async (req, res, next) => {
   const { productName } = req.params;
   try {
     const findProduct = await Product.findOne({ name: productName });
