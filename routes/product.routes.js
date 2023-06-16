@@ -73,6 +73,7 @@ router.put("/:productId", async (req, res, next) => {
     const productFromDB = await Product.findByIdAndUpdate(productId, req.body, {
       new: true,
     });
+    console.log(productFromDB);
     res.status(200).json(productFromDB);
   } catch (error) {
     next(error);

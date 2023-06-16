@@ -36,6 +36,16 @@ router.get('/name/:categoryName', async (req, res, next) => {
     }
 });
 
+router.get('/:categoryId', async (req, res, next) => {
+    const { categoryId } = req.params;
+    try {
+        const findCategory = await Category.findById(categoryId);
+        res.status(200).json(findCategory);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.put('/:categoryId', async (req, res, next) => {
     const { categoryId } = req.params;
     const { name } = req.body;
