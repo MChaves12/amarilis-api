@@ -8,9 +8,14 @@ require('./db');
 //Configs
 require('./configs')(app);
 
+//Middlewares
+const { authenticated } = require('./middlewares/jwt.middleware');
+
 //Routes
-app.use('/products', require('./routes/product.routes'));
 app.use('/auth', require('./routes/auth.routes'));
+
+app.use(authenticated);
+app.use('/products', require('./routes/product.routes'));
 app.use('/user', require('./routes/user.routes'));
 app.use('/category', require('./routes/category.routes'));
 

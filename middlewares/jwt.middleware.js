@@ -1,4 +1,5 @@
-const { expressjwt: jwt } = require('express-jwt');
+const { expressjwt: ejwt } = require('express-jwt');
+
 
 const headersToken = (req) => {
     const { authorization } = req.headers;
@@ -10,12 +11,13 @@ const headersToken = (req) => {
     return null;
 }
 
-const authenticated = jwt({
+const authenticated = ejwt({
     secret: process.env.JWT_SECRET,
     algorithms: ['HS256'],
     requestProperty: 'payload',
     getToken: headersToken,
 });
+
 
 module.exports = {
     authenticated,
