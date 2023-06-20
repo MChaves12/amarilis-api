@@ -87,8 +87,12 @@ router.delete("/:productId", async (req, res, next) => {
   try {
     await Product.findByIdAndRemove(productId);
     const category = await Category.findOne(name);
-    category.products.splice(productId);
-    category.save();
+
+    if (category) {
+      category.products.splice(productId);
+      category.save();
+    } 
+    
     res.status(204).json();
   } catch (error) {
     next(error);
