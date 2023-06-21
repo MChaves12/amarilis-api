@@ -4,7 +4,7 @@ const router = require('express').Router();
 
 const { authenticated } = require('../middlewares/jwt.middleware');
 
-const User = require('../models/User.model');
+const User = require('../models/user.model');
 
 router.get('/', (req, res, next) => {
     res.json('All good!')
