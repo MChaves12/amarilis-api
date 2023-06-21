@@ -12,7 +12,7 @@ const productSchema = new Schema({
   },
   description: String,
   size: String,
-  image: String,
+  images: [String],
   
   
 }, { timestamps: true })

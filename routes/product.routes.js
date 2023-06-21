@@ -16,15 +16,19 @@ const { authenticated } = require('../middlewares/jwt.middleware');
 //});
 
 // Crud -> Create
-router.post("/", async (req, res, next) => {
-  const { name, price, description, size, image } = req.body;
+router.post("/", uploadImage.array('images', 3), async (req, res, next) => {
+  const { name, price, description, size } = req.body;
+  let images = []
+  if(req.files){
+     images = req.files.map((file) => file.path);
+  }
   try {
     const newProductFromDB = await Product.create({
       name,
       price,
       description,
       size,
-      image,
+      images
     });
     res.status(200).json(newProductFromDB);
   } catch (error) {
