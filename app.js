@@ -1,9 +1,5 @@
-require('dotenv/config');
 const express = require('express');
 const app = express();
-
-//DataBase
-require('./db');
 
 //Configs
 require('./configs')(app);
