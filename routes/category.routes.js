@@ -3,20 +3,7 @@ const { authenticated } = require('../middlewares/jwt.middleware');
 const User = require('../models/User.model');
 const Category = require('../models/Category.model');
 
-
-router.post("/", async (req, res, next) => {
-    const { name, products } = req.body;
-    try {
-      const newCategory = await Category.create({
-        name,
-        products
-      });
-      res.status(200).json(newCategory);
-    } catch (error) {
-      next(error);
-    }
-  });
-
+//Publicas
 router.get('/', async (req, res, next) => {
     try {
         const findCategory = await Category.find();
@@ -35,6 +22,27 @@ router.get('/name/:categoryName', async (req, res, next) => {
         next(error);
     }
 });
+
+//Middleware
+router.use(authenticated);
+
+//Privadas
+router.post("/", async (req, res, next) => {
+    const { name, products } = req.body;
+    try {
+      const newCategory = await Category.create({
+        name,
+        products
+      });
+      res.status(200).json(newCategory);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+
+
+
 
 router.get('/:categoryId', async (req, res, next) => {
     const { categoryId } = req.params;
