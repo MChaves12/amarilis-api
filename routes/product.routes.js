@@ -15,27 +15,7 @@ const { authenticated } = require('../middlewares/jwt.middleware');
 //  res.json('Tudo certo aqui!'); // rota de teste
 //});
 
-// Crud -> Create
-router.post("/", uploadImage.array('images', 3), async (req, res, next) => {
-  const { name, price, description, size } = req.body;
-  let images = []
-  if(req.files){
-     images = req.files.map((file) => file.path);
-  }
-  try {
-    const newProductFromDB = await Product.create({
-      name,
-      price,
-      description,
-      size,
-      images
-    });
-    res.status(200).json(newProductFromDB);
-  } catch (error) {
-    next(error);
-  }
-});
-
+//Public Routes
 //cRud -> Read
 router.get("/", async (req, res, next) => {
   const { page, limit } = req.query;
@@ -54,6 +34,31 @@ router.get("/name/:productName", async (req, res, next) => {
   try {
     const findProduct = await Product.findOne({ name: productName });
     res.status(200).json(findProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Middleware
+router.use(authenticated);
+
+//Private Routes
+// Crud -> Create
+router.post("/", uploadImage.array('images', 3), async (req, res, next) => {
+  const { name, price, description, size } = req.body;
+  let images = []
+  if(req.files){
+     images = req.files.map((file) => file.path);
+  }
+  try {
+    const newProductFromDB = await Product.create({
+      name,
+      price,
+      description,
+      size,
+      images
+    });
+    res.status(200).json(newProductFromDB);
   } catch (error) {
     next(error);
   }
