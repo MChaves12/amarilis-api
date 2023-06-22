@@ -14,9 +14,10 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/name/:categoryName', async (req, res, next) => {
+    console.log("Aqui");
     const { categoryName } = req.params;
     try {
-        const findCategory = await Category.findOne({name: categoryName});
+        const findCategory = await Category.findOne({name: categoryName}).populate('products');
         res.status(200).json(findCategory);
     } catch (error) {
         next(error);
